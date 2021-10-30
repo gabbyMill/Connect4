@@ -6,7 +6,7 @@ class TicTacToe {
     for (let i = 0; i < 7; i++) {
       arr.push(Array(7).fill());
     }
-    this.board = arr; // previously Array(9).fill()
+    this.board = arr;
     this.currentPlayer = "X";
     this.finished = false;
 
@@ -19,16 +19,10 @@ class TicTacToe {
     const coor = exactLocationFinder(move); // short for coordinates
     // (array of 2 values that point to the location of the cell in the board)
 
-    if (
-      this.finished ||
-      move < 0 ||
-      move > 48
-      // || this.board[coor[0]][coor[1]]
-    ) {
+    if (this.finished || move < 0 || move > 48) {
       return false;
     }
-    // small bug, user still has to click above
-    // because of this.board in if returning false
+
     let victoryArg;
     for (let i = 6; i > -1; i--) {
       if (!this.board[i][coor[1]]) {
@@ -55,14 +49,17 @@ class TicTacToe {
   victory(vicArg) {
     const v = this.checkForWin(vicArg);
     if (v) {
-      this.victoryEvent.trigger(this.currentPlayer);
+      if (this.currentPlayer === "X") {
+        this.victoryEvent.trigger("Red");
+      } else {
+        this.victoryEvent.trigger("Blue");
+      }
     }
 
     return v;
   }
 
   draw() {
-    // not sure this should be touched
     const draw = this.board.every(arr => arr.every(cell => cell));
     // checks if every sub array is full
     // in other words if all the board is full with no win from either player

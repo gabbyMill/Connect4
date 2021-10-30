@@ -32,7 +32,12 @@ class View {
   }
 
   updateCell(data) {
-    this.cells[data.move].innerHTML = data.player;
+    if (data.player === "X") {
+      this.cells[data.move].classList.add("x");
+    } else {
+      this.cells[data.move].classList.add("o");
+    }
+    // this.cells[data.move].innerHTML = data.player;
   }
 
   victory(winner) {
