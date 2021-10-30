@@ -25,17 +25,16 @@ class TicTacToe {
       move > 48
       // || this.board[coor[0]][coor[1]]
     ) {
-      console.log("returning false");
-      // move > 48
       return false;
     }
     // small bug, user still has to click above
     // because of this.board in if returning false
+    let victoryArg;
     for (let i = 6; i > -1; i--) {
       if (!this.board[i][coor[1]]) {
         this.board[i][coor[1]] = this.currentPlayer;
-        console.log(this.board[i][coor[1]]);
         const domLocation = 7 * i + coor[1];
+        victoryArg = [i, coor[1]];
         this.updateCellEvent.trigger({
           move: domLocation,
           player: this.currentPlayer,
@@ -44,40 +43,22 @@ class TicTacToe {
       }
     }
 
-    this.finished = this.victory() || this.draw();
+    this.finished = this.victory(victoryArg) || this.draw();
 
     if (!this.finished) {
       this.switchPlayer();
     }
-    console.log(this.board);
 
     return true;
   }
 
-  victory() {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    const victory = lines.some(
-      l =>
-        this.board[l[0]] &&
-        this.board[l[0]] === this.board[l[1]] &&
-        this.board[l[1]] === this.board[l[2]]
-    );
-
-    if (victory) {
+  victory(vicArg) {
+    const v = this.checkForWin(vicArg);
+    if (v) {
       this.victoryEvent.trigger(this.currentPlayer);
     }
 
-    return victory;
+    return v;
   }
 
   draw() {
@@ -95,6 +76,58 @@ class TicTacToe {
 
   switchPlayer() {
     this.currentPlayer = this.currentPlayer === "X" ? "O" : "X";
+  }
+  checkForWin(move) {
+    // move is array of 2 coordinates
+    const r = move[0];
+    const c = move[1];
+    if (
+      // checks for horizontal line
+      c >= 3 &&
+      this.board[r][c] === this.board[r][c - 1] &&
+      this.board[r][c - 1] === this.board[r][c - 2] &&
+      this.board[r][c - 2] === this.board[r][c - 3]
+    ) {
+      return true;
+    }
+    if (
+      // checks for horizontal line
+      this.board[r][c] === this.board[r][c + 1] &&
+      this.board[r][c + 1] === this.board[r][c + 2] &&
+      this.board[r][c + 2] === this.board[r][c + 3]
+    ) {
+      return true;
+    }
+    if (
+      // checks for vertical line
+      r <= 3 &&
+      this.board[r][c] === this.board[r + 1][c] &&
+      this.board[r + 1][c] === this.board[r + 2][c] &&
+      this.board[r + 2][c] === this.board[r + 3][c]
+    ) {
+      return true;
+    }
+    if (
+      // checks for diagonal line
+      c >= 3 &&
+      r <= 3 &&
+      this.board[r][c] === this.board[r + 1][c - 1] &&
+      this.board[r][c] === this.board[r + 2][c - 2] &&
+      this.board[r][c] === this.board[r + 3][c - 3]
+    ) {
+      return true;
+    }
+
+    if (
+      // checks for diagonal line
+      r !== 0 &&
+      this.board[r][c] === this.board[r - 1][c - 1] &&
+      this.board[r - 1][c - 1] === this.board[r - 2][c - 2] &&
+      this.board[r - 2][c - 2] === this.board[r - 3][c - 3]
+    ) {
+      return true;
+    }
+    return false;
   }
 }
 
