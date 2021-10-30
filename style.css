@@ -1,0 +1,33 @@
+.board {
+  display: flex; /* establish flex container */
+  flex-wrap: wrap; /* enable flex items to wrap */
+  justify-content: space-around;
+}
+.cell {
+  flex: 0 0 14%; /* don't grow, don't shrink, width */
+  /* height: 50px; */
+  height: 12vh;
+  margin-bottom: 5px;
+  background-color: #999;
+}
+
+/* .cell:nth-child(7n) {
+  background-color: #f00;
+} */
+.cell:nth-child(7n) {
+  background-color: #f00;
+}
+
+/* .board {
+  height: 80vh;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: 1rem repeat(3, 1fr) 1rem;
+  grid-template-rows: 1rem repeat(3, 1fr) 1rem;
+  gap: 0.3rem;
+}
+
+.cell {
+  border: solid;
+  border: 1rem;
+} */
