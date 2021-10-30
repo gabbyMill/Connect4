@@ -6,8 +6,13 @@ class Controller {
     this.model = new TicTacToe();
     this.view = new View();
 
+    // to understand this go to view.playEvent
+    // see what it's giving as an arg
+    // see what model.play is doing with that arg
     this.view.playEvent.addListener(move => {
       // move is cell num
+      // basically a function that passes the event as an argument
+      // to model.play function ?
       this.model.play(move);
     });
 
@@ -17,6 +22,7 @@ class Controller {
       this.view.updateCell(data);
     });
     this.model.victoryEvent.addListener(winner => {
+      // winner is probably the name of the winner...
       this.view.victory(winner);
     });
     this.model.drawEvent.addListener(() => {

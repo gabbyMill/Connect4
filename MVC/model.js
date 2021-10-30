@@ -16,25 +16,40 @@ class TicTacToe {
   }
 
   play(move) {
-    console.log(this.board[move]);
-    // originally this.board[move] checks if there is already something there
-    // argument passed into play should be redefined to include 2 numbers
-    // e.g instead of [5] should be something like [0][4]
-    if (this.finished || move < 0 || move > 48 || this.board[move]) {
+    const coor = exactLocationFinder(move); // short for coordinates
+    // (array of 2 values that point to the location of the cell in the board)
+
+    if (
+      this.finished ||
+      move < 0 ||
+      move > 48
+      // || this.board[coor[0]][coor[1]]
+    ) {
       console.log("returning false");
       // move > 48
       return false;
     }
-    console.log(`board\n` + this.board);
-
-    this.board[move] = this.currentPlayer;
-    this.updateCellEvent.trigger({ move, player: this.currentPlayer });
+    // small bug, user still has to click above
+    // because of this.board in if returning false
+    for (let i = 6; i > -1; i--) {
+      if (!this.board[i][coor[1]]) {
+        this.board[i][coor[1]] = this.currentPlayer;
+        console.log(this.board[i][coor[1]]);
+        const domLocation = 7 * i + coor[1];
+        this.updateCellEvent.trigger({
+          move: domLocation,
+          player: this.currentPlayer,
+        });
+        break;
+      }
+    }
 
     this.finished = this.victory() || this.draw();
 
     if (!this.finished) {
       this.switchPlayer();
     }
+    console.log(this.board);
 
     return true;
   }
@@ -66,6 +81,7 @@ class TicTacToe {
   }
 
   draw() {
+    // not sure this should be touched
     const draw = this.board.every(arr => arr.every(cell => cell));
     // checks if every sub array is full
     // in other words if all the board is full with no win from either player
@@ -83,3 +99,26 @@ class TicTacToe {
 }
 
 export default TicTacToe;
+
+function exactLocationFinder(cellNum) {
+  if (cellNum > 41) {
+    return [6, cellNum - 42];
+  }
+  if (cellNum > 34) {
+    return [5, cellNum - 35];
+  }
+  if (cellNum > 27) {
+    return [4, cellNum - 28];
+  }
+  if (cellNum > 20) {
+    return [3, cellNum - 21];
+  }
+  if (cellNum > 13) {
+    return [2, cellNum - 14];
+  }
+  if (cellNum > 6) {
+    return [1, cellNum - 7];
+  } else {
+    return [0, cellNum];
+  }
+}

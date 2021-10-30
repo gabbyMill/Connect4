@@ -16,8 +16,14 @@ class View {
         cell.className = "cell";
 
         cell.addEventListener("click", () => {
-          console.log(`cell ${i}`);
           this.playEvent.trigger(i);
+          // pass two numbers column and row ?
+          // or column and place in column
+
+          // playEvent triggers
+          // model.play function with argument i
+          // this passes the model i (cell no.) and continues on logic
+          // checking for draw, win, etc...
         });
 
         board.appendChild(cell);
