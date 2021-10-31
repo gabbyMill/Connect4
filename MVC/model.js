@@ -112,7 +112,6 @@ class TicTacToe {
       this.board[r][c] === this.board[r + 2][c - 2] &&
       this.board[r][c] === this.board[r + 3][c - 3]
     ) {
-      console.log(1);
       return true;
     }
     if (
