@@ -41,6 +41,9 @@ class View {
   }
 
   victory(winner) {
+    setTimeout(() => {
+      alert(`${winner} wins!`);
+    }, 0);
     this.message.innerHTML = `${winner} wins!`;
   }
 

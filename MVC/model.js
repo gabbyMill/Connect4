@@ -112,15 +112,36 @@ class TicTacToe {
       this.board[r][c] === this.board[r + 2][c - 2] &&
       this.board[r][c] === this.board[r + 3][c - 3]
     ) {
+      console.log(1);
       return true;
     }
-
     if (
       // checks for diagonal line
-      r !== 0 &&
+      r >= 3 &&
+      c <= 3 &&
+      this.board[r][c] === this.board[r - 1][c + 1] &&
+      this.board[r][c] === this.board[r - 2][c + 2] &&
+      this.board[r][c] === this.board[r - 3][c + 3]
+    ) {
+      return true;
+    }
+    if (
+      // checks for diagonal line
+      r >= 3 &&
+      c >= 3 &&
       this.board[r][c] === this.board[r - 1][c - 1] &&
-      this.board[r - 1][c - 1] === this.board[r - 2][c - 2] &&
-      this.board[r - 2][c - 2] === this.board[r - 3][c - 3]
+      this.board[r][c] === this.board[r - 2][c - 2] &&
+      this.board[r][c] === this.board[r - 3][c - 3]
+    ) {
+      return true;
+    }
+    if (
+      // checks for diagonal line
+      r <= 3 &&
+      c <= 3 &&
+      this.board[r][c] === this.board[r + 1][c + 1] &&
+      this.board[r][c] === this.board[r + 2][c + 2] &&
+      this.board[r][c] === this.board[r + 3][c + 3]
     ) {
       return true;
     }
